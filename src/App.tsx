@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import TodoListItem from "./components/TodoListItem";
+import "./App.css";
+import AddTodoForm from "./components/AddTodoForm";
+import TodoList from "./components/TodoList";
 
+const initialTodos: Todo[] = [
+  {
+    text: "kill some one",
+    complete: false,
+  },
+  { text: "kill yourself", complete: false },
+];
 function App() {
+  const [todoList, setTodoList] = useState(initialTodos);
+
+  const ToggleTodo: ToggleTodo = (selectedTodo: Todo) => {
+    let selectedTodoIndex = todoList.findIndex((e) => e === selectedTodo);
+    let newTodoList = todoList;
+    newTodoList[selectedTodoIndex].complete =
+      !todoList[selectedTodoIndex].complete;
+    setTodoList([...newTodoList]);
+  };
+
+  const addTodoItem: AddTodoItem = (newTodoItem: Todo) => {
+    setTodoList([...todoList, newTodoItem]);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AddTodoForm addTodoItem={addTodoItem} />
+      <TodoList ToggleTodo={ToggleTodo} todoList={todoList} />
     </div>
   );
 }

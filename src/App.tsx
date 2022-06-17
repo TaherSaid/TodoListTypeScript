@@ -1,6 +1,8 @@
 import { useState } from "react";
 import TodoListItem from "./components/TodoListItem";
 import "./App.css";
+import AddTodoForm from "./components/AddTodoForm";
+import TodoList from "./components/TodoList";
 
 const initialTodos: Todo[] = [
   {
@@ -12,7 +14,7 @@ const initialTodos: Todo[] = [
 function App() {
   const [todoList, setTodoList] = useState(initialTodos);
 
-  const ToggleTodo = (selectedTodo: Todo) => {
+  const ToggleTodo: ToggleTodo = (selectedTodo: Todo) => {
     let selectedTodoIndex = todoList.findIndex((e) => e === selectedTodo);
     let newTodoList = todoList;
     newTodoList[selectedTodoIndex].complete =
@@ -20,11 +22,13 @@ function App() {
     setTodoList([...newTodoList]);
   };
 
+  const addTodoItem: AddTodoItem = (newTodoItem: Todo) => {
+    setTodoList([...todoList, newTodoItem]);
+  };
   return (
     <div className="App">
-      {todoList.map((todo, key) => (
-        <TodoListItem key={key} todo={todo} ToggleTodo={ToggleTodo} />
-      ))}
+      <AddTodoForm addTodoItem={addTodoItem} />
+      <TodoList ToggleTodo={ToggleTodo} todoList={todoList} />
     </div>
   );
 }

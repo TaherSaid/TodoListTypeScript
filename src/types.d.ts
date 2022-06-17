@@ -8,4 +8,14 @@ interface Props {
   ToggleTodo;
 }
 
+interface TodoListProps {
+  todoList: Todo[];
+  ToggleTodo;
+}
+
+interface AddTodoItemProps {
+  addTodoItem;
+}
+
 type ToggleTodo = (selectedTodo: Todo) => void;
+type AddTodoItem = (newTodoItem: Todo) => void;
